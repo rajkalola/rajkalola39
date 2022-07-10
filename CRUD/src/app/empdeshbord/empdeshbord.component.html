@@ -1,0 +1,99 @@
+<nav class="navbar navbar-light bg-primary">
+  <div class="container-fluid">
+    <h1 style="color:rgb(242, 242, 243)">Angular CRUD</h1>
+    <div class="d-flex">
+      <button type="button" class="btn btn-primary" (click)="onLogout()">Logout</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+        class="btn btn-success">Add Employee</button>
+    </div>
+  </div>
+</nav>
+
+<input matInput type="search" [(ngModel)]="term" placeholder="search">
+
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Mobile</th>
+      <th scope="col">Action</th>
+
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let list of arr | filter:term ; let i=index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{list.name}}</td>
+      <td>{{list.email}}</td>
+      <td>{{list.gender}}</td>
+      <td>{{list.mobile}}</td>
+
+      <td>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-success"
+          (click)="EditItem(list, i)">Edit</button>
+        <button class="btn btn-danger mx-3" (click)="DeleteItem(i)">Delete</button>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Emaployee details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="myform">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" formControlName="name" class="form-control" id="name">
+            <div class="alert text-danger" *ngIf="this.name.invalid && this.name.touched">
+              <div>Name is required</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" formControlName="email" class="form-control" id="email" />
+            <div class="alert text-danger" *ngIf="this.email.invalid && this.email.touched">
+              <div>Email is required</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile</label>
+            <input type="number" formControlName="mobile" class="form-control" id="mobile">
+            <div class="alert text-danger" *ngIf="this.mobile.invalid&& this.mobile.touched">
+              <div>mobile is invalid</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="gender" class="form-label" style="margin-right: 10px;">Gender:</label>
+            <select name="gender" formControlName="gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <div class="alert text-danger" *ngIf="this.gender.invalid&& this.gender.touched">
+              <div>Gender is required</div>
+            </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" value="submit" *ngIf="addEmployee" (click)="onSubmit()"
+            class="btn btn-primary">Add</button>
+          <button type="button" *ngIf="!addEmployee"  (click)="updateItem()" class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
